@@ -1,0 +1,93 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific aliases and functions
+# Xiaolong Wang
+# xiaolonw@cs.cmu.edu
+
+PS1="[\u@\h]\w:>"
+case `id -u` in
+	0) PS1="${PS1}# ";;
+	*) PS1="${PS1} ";;
+esac
+
+
+export CMAKE_PREFIX_PATH=/opt/gcc/4.9.2/:$CMAKE_PREFIX_PATH
+export PATH=/home/xiaolonw/torch_libs/cmake/bin:/home/xiaolonw/torch_libs/cuda-7.0/bin:/home/xiaolonw/torch_libs/cuda-7.0:/usr/local/cuda-7.0/include:/usr/include:$PATH
+export PATH=/opt/gcc/4.9.2/bin:/opt/gcc/4.9.2/libexec/gcc/x86_64-unknown-linux-gnu/4.9.2/:/home/xiaolonw/torch_libs/local/include:/home/xiaolonw/torch_libs/local/bin::$PATH
+export C_INLCUDE_PATH=/home/imisra/libs/gflags/build/include:/home/xiaolonw/torch_libs/local/include:$C_INCLUDE_PATH
+export CPLUS_INCLUDE_PATH=/home/imisra/libs/gflags/build/include:/home/xiaolonw/torch_libs/local/include:$CPLUS_INCLUDE_PATH
+export LD_LIBRARY_PATH=/opt/gcc/4.9.2/lib:/opt/gcc/4.9.2/lib64:/usr/lib64:/home/xiaolonw/torch_libs/cuda-7.0/lib:/home/xiaolonw/torch_libs/cuda-7.0/lib64:/usr/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/home/xiaolonw/torch_libs/local/lib:$LD_LIBRARY_PATH
+export LIBRARY_PATH=/usr/lib64:/home/xiaolonw/torch_libs/cuda-7.0/lib:/home/xiaolonw/torch_libs/cuda-7.0/lib64:/usr/lib:/home/xiaolonw/torch_libs/local/lib:$LIBRARY_PATH
+
+
+export PATH=/home/imisra/libs/gflags/build/include:/home/xiaolonw/torch_libs/readline/include:$PATH
+export C_INLCUDE_PATH=/home/xiaolonw/torch_libs/readline/include:$C_INLCUDE_PATH
+export CPLUS_INLCUDE_PATH=/home/xiaolonw/torch_libs/readline/include:$CPLUS_INLCUDE_PATH
+export LD_LIBRARY_PATH=/home/xiaolonw/torch_libs/readline/lib:$LD_LIBRARY_PATH
+export LIBRARY_PATH=/home/xiaolonw/torch_libs/readline/lib:$LIBRARY_PATH
+
+
+export PATH=/home/xiaolonw/torch_libs/libjpeg/include:/home/xiaolonw/torch_libs/libjpeg/bin:/home/xiaolonw/torch_libs/nasm/bin:/home/xiaolonw/torch_libs/openssl/include:/home/xiaolonw/torch_libs/zeromq/include:$PATH
+export C_INLCUDE_PATH=/home/xiaolonw/torch_libs/libjpeg/include:/home/xiaolonw/torch_libs/openssl/include:/home/xiaolonw/torch_libs/zeromq/include:$C_INLCUDE_PATH
+export LD_LIBRARY_PATH=/home/xiaolonw/torch_libs/libjpeg/lib:/home/xiaolonw/torch_libs/openssl/lib:/home/xiaolonw/torch_libs/zeromq/lib:$LD_LIBRARY_PATH
+export LIBRARY_PATH=/home/xiaolonw/torch_libs/libjpeg/lib:/home/xiaolonw/torch_libs/openssl/lib:/home/xiaolonw/torch_libs/zeromq/lib:$LIBRARY_PATH
+
+
+export PATH=/home/xiaolonw/torch_libs/protobuf/bin:/home/xiaolonw/torch_libs/protobuf/include:$PATH
+export C_INLCUDE_PATH=/home/xiaolonw/torch_libs/protobuf/include:$C_INLCUDE_PATH
+export CPLUS_INLCUDE_PATH=/home/xiaolonw/torch_libs/protobuf/include:$CPLUS_INLCUDE_PATH
+export LD_LIBRARY_PATH=/home/xiaolonw/torch_libs/protobuf/lib:$LD_LIBRARY_PATH
+export LIBRARY_PATH=/home/xiaolonw/torch_libs/protobuf/lib:$LIBRARY_PATH
+
+export PATH=/home/xiaolonw/torch_libs/cudnnv4/cuda/include:$PATH
+export C_INLCUDE_PATH=/home/xiaolonw/torch_libs/cudnnv4/cuda/include:$C_INLCUDE_PATH
+export CPLUS_INLCUDE_PATH=/home/xiaolonw/torch_libs/cudnnv4/cuda/include:$CPLUS_INLCUDE_PATH
+export LD_LIBRARY_PATH=/home/imisra/libs/cudnn-7.0-v4/lib:/home/xiaolonw/torch_libs/cudnnv4/cuda/lib64:$LD_LIBRARY_PATH
+export LIBRARY_PATH=/home/imisra/libs/cudnn-7.0-v4/lib:/home/xiaolonw/torch_libs/cudnnv4/cuda/lib64:$LIBRARY_PATH
+
+export export PKG_CONFIG_PATH=/home/xiaolonw/torch_libs/local/lib/pkgconfig:/home/xiaolonw/torch_libs/openssl/lib/pkgconfig:/home/xiaolonw/torch_libs/zeromq/lib/pkgconfig:$PKG_CONFIG_PATH
+
+export JPEG_LIBRARY=/home/xiaolonw/torch_libs/libjpeg/lib/
+
+
+export CUDA_BIN_PATH=/home/xiaolonw/torch_libs/cuda-7.0
+alias pip="/usr/bin/pip-python"
+alias ls='ls --color=auto'
+alias ll='ls -l --color=auto'
+alias grep='grep --color=auto'
+alias c='clear'
+alias numthreads='ps -eafm | grep xiaolonw | wc -l'
+alias killtrash='killall gvfsd-trash'
+
+
+export PATH=/usr/local/cuda-7.5/include:/home/xiaolonw/torch/bin:$PATH
+export LD_LIBRARY_PATH=/home/15-418/opencv/build/lib:/usr/local/cuda-7.5/lib64:/home/imisra/libs/gflags/build/lib:/home/imisra/libs/google-snappy-0852af7/lib:/home/xiaolonw/torch/lib:$LD_LIBRARY_PATH 
+export DYLD_LIBRARY_PATH=/home/xiaolonw/torch/lib:$DYLD_LIBRARY_PATH 
+
+export PATH="/home/imisra/pythonStuff/anaconda/bin:$PATH"
+
+. /home/xiaolonw/torch/install/bin/torch-activate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+. /home/xiaolonw/torch/install/bin/torch-activate

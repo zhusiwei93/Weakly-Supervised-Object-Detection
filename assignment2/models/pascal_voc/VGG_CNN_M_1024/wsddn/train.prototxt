@@ -1,0 +1,369 @@
+name: "WSDDN"
+layer {
+  name: 'data'
+  type: 'Python'
+  top: 'data'
+  top: 'rois'
+  top: 'binarylabel'
+  top: 'boxscores'
+  python_param {
+    module: 'roi_data_layer.layer'
+    layer: 'RoIWeakDataLayer'
+    param_str: "'num_classes': 21"
+  }
+}
+##################################
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1"
+  param { lr_mult: 0 decay_mult: 0 }
+  param { lr_mult: 0 decay_mult: 0 }
+  convolution_param {
+    num_output: 96
+    kernel_size: 7
+    stride: 2
+  }
+}
+layer {
+  name: "relu1"
+  type: "ReLU"
+  bottom: "conv1"
+  top: "conv1"
+}
+layer {
+  name: "norm1"
+  type: "LRN"
+  bottom: "conv1"
+  top: "norm1"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0005
+    beta: 0.75
+    k: 2
+  }
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "norm1"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "conv2"
+  type: "Convolution"
+  bottom: "pool1"
+  top: "conv2"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 256
+    pad: 1
+    kernel_size: 5
+    stride: 2
+  }
+}
+layer {
+  name: "relu2"
+  type: "ReLU"
+  bottom: "conv2"
+  top: "conv2"
+}
+layer {
+  name: "norm2"
+  type: "LRN"
+  bottom: "conv2"
+  top: "norm2"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0005
+    beta: 0.75
+    k: 2
+  }
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "norm2"
+  top: "pool2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "conv3"
+  type: "Convolution"
+  bottom: "pool2"
+  top: "conv3"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 512
+    pad: 1
+    kernel_size: 3
+  }
+}
+layer {
+  name: "relu3"
+  type: "ReLU"
+  bottom: "conv3"
+  top: "conv3"
+}
+layer {
+  name: "conv4"
+  type: "Convolution"
+  bottom: "conv3"
+  top: "conv4"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 512
+    pad: 1
+    kernel_size: 3
+  }
+}
+layer {
+  name: "relu4"
+  type: "ReLU"
+  bottom: "conv4"
+  top: "conv4"
+}
+layer {
+  name: "conv5"
+  type: "Convolution"
+  bottom: "conv4"
+  top: "conv5"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 512
+    pad: 1
+    kernel_size: 3
+  }
+}
+layer {
+  name: "relu5"
+  type: "ReLU"
+  bottom: "conv5"
+  top: "conv5"
+}
+layer {
+  name: "roi_pool5"
+  type: "ROIPooling"
+  bottom: "conv5"
+  bottom: "rois"
+  top: "pool5"
+  roi_pooling_param {
+    pooled_w: 6
+    pooled_h: 6
+    spatial_scale: 0.0625 # 1/16
+  }
+}
+layer {
+  name: "scale_layer"
+  type: "Scale"
+  bottom: "pool5"
+  bottom: "boxscores"
+  top: "scale_layer"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "fc6"
+  type: "InnerProduct"
+  bottom: "scale_layer"
+  top: "fc6"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  inner_product_param {
+    num_output: 4096
+  }
+}
+layer {
+  name: "relu6"
+  type: "ReLU"
+  bottom: "fc6"
+  top: "fc6"
+}
+layer {
+  name: "drop6"
+  type: "Dropout"
+  bottom: "fc6"
+  top: "fc6"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc7"
+  type: "InnerProduct"
+  bottom: "fc6"
+  top: "fc7"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  inner_product_param {
+    num_output: 1024
+  }
+}
+layer {
+  name: "relu7"
+  type: "ReLU"
+  bottom: "fc7"
+  top: "fc7"
+}
+layer {
+  name: "drop7"
+  type: "Dropout"
+  bottom: "fc7"
+  top: "fc7"
+  dropout_param {
+    dropout_ratio: 0.5
+  }
+}
+layer {
+  name: "fc8c"
+  type: "InnerProduct"
+  bottom: "fc7"
+  top: "fc8c"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  inner_product_param {
+    num_output: 20
+  }
+}
+layer {
+  name: "fc8d"
+  type: "InnerProduct"
+  bottom: "fc7"
+  top: "fc8d"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  inner_product_param {
+    num_output: 20
+  }
+}
+layer {
+  name: "softmax_row"
+  type: "Softmax"
+  bottom: "fc8c"
+  top: "classification_prob"
+  softmax_param {
+    axis: 1
+  }
+}
+layer {
+  name: "softmax_col"
+  type: "Softmax"
+  bottom: "fc8d"
+  top: "detection_prob"
+  softmax_param {
+    axis: 0
+  }
+}
+##################################
+layer {
+  name: "eltwise-prod"
+  type: "Eltwise"
+  bottom: "classification_prob"
+  bottom: "detection_prob"
+  top: "cls_prob"
+  eltwise_param { operation: PROD }
+}
+
+layer {
+  name: 'reshape'
+  type: 'Python'
+  bottom: 'cls_prob'
+  top: 'cls_prob_reshaped'
+  python_param {
+    module: 'roi_data_layer.layer'
+    layer: 'SecretAssignmentLayer'
+  }
+}
+layer {
+  name: "WeakPred"
+  type: "Reduction"
+  bottom: "cls_prob_reshaped"
+  top: "weakpred"
+  reduction_param { 
+  operation: SUM
+  axis: 2
+  }
+}
+
+#weakpred is of dimensions 1 x Nclasses = 1x20
+########## Loss section ##########
+layer {
+  name: 'loss'
+  type: 'Python'
+  bottom: 'binarylabel'
+  bottom: 'weakpred'
+  top: 'loss'
+  python_param {
+    module: 'roi_data_layer.layer'
+    layer: 'MyLayer'
+  }
+  loss_weight: 1
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

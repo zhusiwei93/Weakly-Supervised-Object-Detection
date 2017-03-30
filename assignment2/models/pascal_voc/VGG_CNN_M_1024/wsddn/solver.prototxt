@@ -1,0 +1,20 @@
+train_net: "models/pascal_voc/VGG_CNN_M_1024/wsddn/train.prototxt"
+base_lr: 0.00001
+lr_policy: "step"
+gamma: 0.1
+stepsize: 100000
+display: 20
+average_loss: 100
+momentum: 0.9
+weight_decay: 0.0005
+#lr, momentum, policy, gamma, display, average_loss, decay
+#
+#
+#
+#
+#
+#
+#
+snapshot: 0
+snapshot_prefix: "/home/szhu1/models/"
+iter_size: 1
